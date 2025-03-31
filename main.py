@@ -3,9 +3,11 @@ import requests
 import os
 import json
 
+# Telegram токен
 TOKEN = "8107463006:AAHFT8n8hj5x5__95uI3BC2f5Yopqz05MO4"
 API_URL = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
 
+# Файл памяти
 MEMORY_FILE = "memory.json"
 
 def load_memory():
@@ -39,7 +41,7 @@ def webhook():
         chat_id = data["message"]["chat"]["id"]
         text = data["message"].get("text", "")
 
-        # Сохраняем сообщение
+        # Сохраняем в память
         memory = load_memory()
         memory["messages"].append({
             "from": "user",
@@ -47,6 +49,7 @@ def webhook():
         })
         memory["state"]["last_user_input"] = text
         save_memory(memory)
+        print("Saved memory:", json.dumps(memory, indent=2))  # Лог в консоль Render
 
         # Ответ
         reply = "Привет, я Картана. Пока учусь отвечать, но уже здесь."
